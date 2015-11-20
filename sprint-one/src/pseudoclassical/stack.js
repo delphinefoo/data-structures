@@ -11,12 +11,12 @@ Stack.prototype.push = function(val) {
 };
 
 Stack.prototype.pop = function() {
-  delete this.storage[this.counter];
-  this.counter--;
-  if (this.counter < 0) {
-    this.counter = 0;
+  if (this.counter > 0) {
+    this.counter--;
   }
-  return this.storage[this.counter];
+  var item = this.storage[this.counter];
+  delete this.storage[this.counter];
+  return item;
 };
 
 Stack.prototype.size = function() {
