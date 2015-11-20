@@ -19,8 +19,6 @@ var Queue = function(){
       counter = 0;
     }
 
-    //storage[0] = storage[counter];
-
     for(var key in storage) {
       storage[key - 1] = storage[key];
     }
@@ -33,3 +31,4 @@ var Queue = function(){
 
   return someInstance;
 };
+
