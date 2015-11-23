@@ -5,22 +5,13 @@ var HashTable = function(){
 
 HashTable.prototype.insert = function(k, v){
   var i = getIndexBelowMaxForKey(k, this._limit);
-  //console.log(this._storage.get(i));
-  //if this._storage.get(i) doesn't exist yet
-    //create bucket
-    //create tuple inside bucket; tuple will hold k,v
-  //else loop through the bucket
-    //if key exists in bucket
-      //make tuple[1] = v
-  var tuple = [];
+  //if something already at i
   if(this._storage.get(i)) {
-    tuple[0] = k;
-    //var firstVal = this._storage.get(i);
-    //value at i becomes array
-    this._storage.set(i, [firstVal, v]);
-    //push this value and the new value into the storage[i]
+    //create new tuple
+    //push new tuple into the array at i
+    this._storage.get(i).push([k, v]);
   } else {
-    this._storage.set(i, [k, v]);
+    this._storage.set(i, [[k, v]]);
   }
 };
 
@@ -28,28 +19,25 @@ HashTable.prototype.insert = function(k, v){
 
 HashTable.prototype.retrieve = function(k){
   var i = getIndexBelowMaxForKey(k, this._limit);
-  //check if the corresponding i is an array
-    if(Array.isArray(this._storage.get(i))) {
-    //then we loop through the array at the index
-      for(var idx = 0; idx < this._storage.get(i).length; idx++) {
-        //if array[i] matches k,
-        if(this._storage.get(i)[idx] === k) {
-          return k;
-        }
+  var result;
+  //if there is an array at i
+  if (Array.isArray(this._storage.get(i))) {
+    //then we loop through the array at i
+    _.each(this._storage.get(i), function(tuple) {
+      //if tuple matches k,
+      if(tuple[0] === k) {
+        //set result to tuple's value
+        result = tuple[1];
       }
-    } else {
-      return this._storage.get(i) || null;
-    }
+    })
+  }
+  return result || null;
 };
 
 HashTable.prototype.remove = function(k){
   var i = getIndexBelowMaxForKey(k, this._limit);
   //loop through each item in storage
-  this._storage.each(function(value, index, storage) {
-    if(i === index) {
-      storage.splice(i, 1);
-    }
-  });
+  this._storage.get(i).splice(0, 1);
 };
 
 /*this._storage = {
@@ -62,4 +50,7 @@ HashTable.prototype.remove = function(k){
 
 /*
  * Complexity: What is the time complexity of the above functions?
+ Insert: Constant
+ Retrieve: Constant (as long as there is a negligible amount of collisions)
+ Remove: Constant
  */

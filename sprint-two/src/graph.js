@@ -7,13 +7,14 @@ var Graph = function(){
   this.nodes = {};
 };
 
-//{value: ..., connections: []}
+//{ {value: ..., connections: []}, {value: , connections: []} }
 
 // ------------------------
 // Add a node to the graph, passing in the node's value.
-Graph.prototype.addNode = function(node){
-  this.nodes[node] = {};
-  this.nodes[node].value = node;
+Graph.prototype.addNode = function(value){
+  this.nodes[value] = {};
+  this.nodes[value].value = value;
+  this.nodes[value].connections = this.nodes[value].connections || [];
 };
 
 // ------------------------
@@ -46,35 +47,39 @@ Graph.prototype.hasEdge = function(fromNode, toNode){
 // ------------------------
 // Connects two nodes in a graph by adding an edge between them.
 Graph.prototype.addEdge = function(fromNode, toNode){
-  if (this.nodes[fromNode].connections === undefined) {
-    this.nodes[fromNode].connections = [];
-    this.nodes[toNode].connections = [];
+  if (this.nodes[fromNode].connections.indexOf(toNode) < 0) {
+    this.nodes[fromNode].connections.push(toNode);
   }
-  this.nodes[fromNode].connections.push(toNode);
-  this.nodes[toNode].connections.push(fromNode);
+  if (this.nodes[toNode].connections.indexOf(fromNode) < 0) {
+    this.nodes[toNode].connections.push(fromNode);
+  }
 };
 
 // ------------------------
 // Remove an edge between any two specified (by value) nodes.
 Graph.prototype.removeEdge = function(fromNode, toNode){
-  var fromEdges = this.nodes[fromNode].connections;
-  var toEdges = this.nodes[toNode].connections;
-  if (fromEdges.indexOf(toNode) > -1) {
-    fromEdges.splice(fromEdges.indexOf(toNode), 1);
-    toEdges.splice(toEdges.indexOf(fromNode), 1)
+  if (this.nodes[fromNode].connections.indexOf(toNode) > -1) {
+    this.nodes[fromNode].connections.splice(this.nodes[fromNode].connections.indexOf(toNode), 1);
+    this.nodes[toNode].connections.splice(this.nodes[toNode].connections.indexOf(fromNode), 1)
   }
 };
 
 // ------------------------
 // Pass in a callback which will be executed on each node of the graph.
 Graph.prototype.forEachNode = function(cb){
-  for(var key in this.nodes) {
-    cb.call(this, this.nodes[key].value);
+  for (var key in this.nodes) {
+    cb(this.nodes[key].value);
   }
 };
 
 /*
  * Complexity: What is the time complexity of the above functions?
+ addNode: constant
+ contains: constant
+ removeNode: constant
+ addEdge: constant
+ removeEdge: constant
+ forEachNode: linear
  */
 
 
