@@ -10,7 +10,19 @@ var DoublyLinkedList = function() {
 
   }
 
+  list.addToTail = function(value) {
+
+  }
+
+  list.removeHead = function(value) {
+
+  }
+
   list.removeTail = function(value) {
+
+  }
+
+  list.contains = function(value) {
 
   }
 
