@@ -53,5 +53,11 @@ describe('doublyLinkedList', function() {
     expect(doublyLinkedList.contains(4)).to.equal(false);
   });
 
+  it('should add a new value to the head when addToHead is called', function() {
+    doublyLinkedList.addToHead(4);
+    doublyLinkedList.addToHead(5);
+    expect(doublyLinkedList.head.value).to.equal(5);
+  });
+
   // add more tests here to test the functionality of linkedList
 });
