@@ -53,4 +53,17 @@ describe('tree', function() {
     expect(tree.children[0].children[0].children[0].parent.value).to.equal(7);
   });
 
+  it('should have a method named "removeFromParent"', function() {
+    expect(tree.removeFromParent).to.be.a('function');
+  });
+
+  it('should dissociate the tree with its parent when removeFromParent is called', function() {
+    tree.addChild(5);
+    tree.addChild(6);
+    tree.children[0].addChild(7);
+    tree.children[0].addChild(8);
+    tree.children[0].removeFromParent();
+    expect(tree.contains(8)).to.equal(false);
+  });
+
 });

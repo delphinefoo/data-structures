@@ -35,6 +35,13 @@ treeMethods.contains = function(target){
   return false;
 };
 
+treeMethods.removeFromParent = function() {
+    //remove child value from parent's children property
+    this.parent.children.splice(this.parent.children.indexOf(this), 1);
+    //remove parent from child's parent property
+    this.parent = null;
+};
+
 /*
  * Complexity: What is the time complexity of the above functions?
  addChild: Constant time
