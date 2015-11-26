@@ -45,12 +45,20 @@ var DoublyLinkedList = function() {
 
   list.removeHead = function() {
     var previousHead = list.head;
-    list.head = list.head.next;
+    if (list.head.next) {
+      list.head = list.head.next;
+    }
+    list.head.previous = null;
     return previousHead.value;
   }
 
   list.removeTail = function() {
-
+    var previousTail = list.tail;
+    if (list.tail.previous) {
+      list.tail = list.tail.previous;
+    }
+    list.tail.next = null;
+    return previousTail.value;
   }
 
   list.contains = function(value) {
