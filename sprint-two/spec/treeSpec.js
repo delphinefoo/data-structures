@@ -41,4 +41,16 @@ describe('tree', function() {
     expect(tree.contains(8)).to.equal(true);
   });
 
+  it('should contain a property named "parent"', function() {
+    expect(tree.hasOwnProperty("parent")).to.equal(true);
+  });
+
+  it('should add the parent property to all nodes', function() {
+    tree.addChild(5);
+    tree.addChild(6);
+    tree.children[0].addChild(7);
+    tree.children[0].children[0].addChild(8);
+    expect(tree.children[0].children[0].children[0].parent.value).to.equal(7);
+  });
+
 });
