@@ -53,8 +53,9 @@ describe('tree', function() {
     expect(tree.children[0].children[0].children[0].parent.value).to.equal(7);
   });
 
-  it('should have a method named "removeFromParent"', function() {
+  it('should have methods named "removeFromParent" and "traverse"', function() {
     expect(tree.removeFromParent).to.be.a('function');
+    expect(tree.traverse).to.be.a('function');
   });
 
   it('should dissociate the tree with its parent when removeFromParent is called', function() {
@@ -64,6 +65,16 @@ describe('tree', function() {
     tree.children[0].addChild(8);
     tree.children[0].removeFromParent();
     expect(tree.contains(8)).to.equal(false);
+  });
+
+  it('should execute a callback on every item in the tree when traverse is called', function() {
+    var addTwo = function(value) { value += 2; };
+    tree.addChild(5);
+    tree.addChild(6);
+    tree.children[0].addChild(7);
+    tree.children[0].addChild(8);
+    tree.traverse(addTwo);
+    expect(tree.children[0].children[1].value).to.equal(10);
   });
 
 });

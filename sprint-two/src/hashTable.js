@@ -5,13 +5,33 @@ var HashTable = function(){
 
 HashTable.prototype.insert = function(k, v){
   var i = getIndexBelowMaxForKey(k, this._limit);
-  //if something already at i
+  var indexCounter = 0;
+  var temp;
+
   if(this._storage.get(i)) {
     //create new tuple
     //push new tuple into the array at i
     this._storage.get(i).push([k, v]);
   } else {
     this._storage.set(i, [[k, v]]);
+  }
+
+  //loop through items
+  this._storage.each(function(item) {
+    if (item !== undefined) {
+      //increment indexCounter for each existing item
+      indexCounter++;
+    }
+  });
+  //if indexCounter >= 75% of limit
+  if (indexCounter > 0.5 * this._limit) {
+    //create a new hash table double the length of the first
+    temp = this._storage;
+    this._storage = LimitedArray(2 * this._limit);
+    //move old items to new hash table
+    this._storage.each(function(item, index, storage) {
+      storage[index] = temp[index];
+    });
   }
 };
 

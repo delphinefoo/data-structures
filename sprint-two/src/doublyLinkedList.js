@@ -66,9 +66,8 @@ var DoublyLinkedList = function() {
     var check = function(node, value) {
       if (node.value === value) {
         found = true;
-        return found;
       } else if (node.next !== null) {
-        return check(node.next, value);
+        check(node.next, value);
       }
       return found;
     }

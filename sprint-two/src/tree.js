@@ -36,10 +36,23 @@ treeMethods.contains = function(target){
 };
 
 treeMethods.removeFromParent = function() {
-    //remove child value from parent's children property
-    this.parent.children.splice(this.parent.children.indexOf(this), 1);
-    //remove parent from child's parent property
-    this.parent = null;
+  //remove child value from parent's children property
+  this.parent.children.splice(this.parent.children.indexOf(this), 1);
+  //remove parent from child's parent property
+  this.parent = null;
+};
+
+treeMethods.traverse = function(cb) {
+  //call callback on current node's value
+  cb(this.value);
+  //if current node has children
+  if (this.children.length) {
+    //call callback on children
+    for (var i = 0; i < this.children.length; i++) {
+      this.children[i].traverse(cb);
+    }
+  }
+  console.log(this);
 };
 
 /*
